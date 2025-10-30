@@ -337,9 +337,9 @@ function escape(s){
 
 function formatComponents(components) {
   if (!components || !components.length) return '-';
-  return components.map(c => 
-    `${c.qty}x ${escape(c.type)} (${escape(c.lub)})${c.desc ? ` - ${escape(c.desc)}` : ''}`
-  ).join('<br>');
+  return '<ul style="margin: 0; padding-left: 1.2em; list-style-position: inside;">' + components.map(c =>
+    `<li><strong>${c.qty}x ${escape(c.type)}:</strong> ${escape(c.lub)}${c.desc ? ` <em>(${escape(c.desc)})</em>` : ''}</li>`
+  ).join('') + '</ul>';
 }
 
 function formatComponentsCSV(components) {
@@ -413,7 +413,7 @@ function printRecords() {
             <th>Equipamento</th>
             <th>Patrimônio</th>
             <th>Período</th>
-            <th>Óleo/Graxa</th>
+            <th>Componentes</th>
             <th>Data realizada</th>
             <th>Observações</th>
           </tr>
