@@ -41,12 +41,148 @@ button.delete{background:transparent;color:#b91c1c;border:1px solid rgba(185,28,
 button.delete::before{content:"🗑";margin-right:6px}
 
 /* Table header / rows */
-thead th{background:transparent;color:#243342}
+thead th{background:transparent;color:#243342; font-weight: 700;}
 tbody tr:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(2,6,23,0.04)}
 
 /* Make form card visually separated */
 .card form{display:block}
 .card form label{font-weight:600;color:#334155}
+
+/* Componentes */
+.components-section{
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e6eef9;
+}
+.components-section h3{
+  font-size: 16px;
+  margin: 0 0 16px;
+  color: #1f2937;
+}
+
+.row-details {
+  display: none;
+  background: #f8fafc;
+  border: 1px solid #e6eef9;
+  padding: 16px;
+}
+
+tr.expanded .row-details {
+  display: table-row;
+}
+
+.row-details td {
+  padding: 16px;
+}
+
+.component-list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.component-item-view {
+  background: white;
+  border: 1px solid #e6eef9;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.component-item-view .title {
+  font-weight: 600;
+  color: #1f2937;
+  flex: 1 1 200px;
+}
+
+.component-item-view .meta {
+  display: flex;
+  gap: 16px;
+  color: #6b7280;
+  font-size: 0.9em;
+  flex-wrap: wrap;
+}
+
+.toggle-details {
+  background: none;
+  border: none;
+  color: var(--accent);
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  box-shadow: none;
+}
+
+.toggle-details:hover {
+  background: #f0f7ff;
+  border-radius: 4px;
+}
+
+.row-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 780px) {
+  .row-details {
+    margin: 12px -10px -10px;
+    border-top: 1px solid #e6eef9;
+    border-radius: 0 0 8px 8px;
+  }
+  
+  .component-item-view {
+    margin: 0 8px;
+  }
+}
+.add-component-form{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  align-items: end;
+  margin-top: 16px;
+}
+.add-component-form select,
+.add-component-form input{
+  padding: 8px;
+  border: 1px solid #e6eef9;
+  border-radius: 6px;
+  font-size: 13px;
+}
+.add-component-form button{
+  min-height: 35px;
+}
+#componentsList{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.component-tag{
+  background: #f0f7ff;
+  border: 1px solid #cce3ff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.component-tag .remove{
+  color: #dc2626;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0 4px;
+}
+.component-tag .qty{
+  background: #e1effe;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
 
 /* Small screens: ensure header is not huge */
 @media (max-width:780px){
@@ -66,7 +202,8 @@ button:active{transform:translateY(1px)}
 button:disabled{opacity:0.6;cursor:not-allowed}
 .table-wrapper{overflow:auto;margin-top:12px}
 table{width:100%;border-collapse:collapse}
-th,td{padding:10px;text-align:left;border-bottom:1px solid #eef6ff;font-size:14px;vertical-align:middle}
+th,td{padding:14px;text-align:left;border-bottom:1px solid #eef6ff;font-size:14px;vertical-align:middle}
+tbody tr{transition: all .2s ease-in-out; border-bottom: 8px solid var(--bg);}
 thead th{background:transparent;color:#374151;font-weight:600}
 .toolbar{display:flex;gap:8px;align-items:center;margin-bottom:8px}
 #search{flex:1;padding:10px;border:1px solid #e6eef9;border-radius:8px}
@@ -82,7 +219,7 @@ thead th{background:transparent;color:#374151;font-weight:600}
   /* Convert table rows into cards for small screens */
   table{border:0}
   thead{display:none}
-  tbody tr{display:block;margin-bottom:12px;background:var(--card);border-radius:8px;padding:10px;box-shadow:0 4px 12px rgba(18,38,63,0.04)}
+  tbody tr{display:block;margin-bottom:16px;background:var(--card);border-radius:10px;padding:12px;box-shadow:var(--shadow)}
   tbody td{display:flex;justify-content:space-between;align-items:center;border-bottom:0;padding:8px 6px}
   tbody td::before{content:attr(data-label);color:#6b7280;font-weight:600;margin-right:8px;display:inline-block;width:38%}
   tbody td:last-child{display:flex;gap:8px;justify-content:flex-end}

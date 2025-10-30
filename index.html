@@ -48,19 +48,37 @@
           </label>
 
           <label>
-            Óleo/Graxa
-            <input type="text" id="lubrificante" required placeholder="Tipo de óleo ou graxa">
-          </label>
-
-          <label>
             Data realizada
             <input type="date" id="data_realizada" required>
           </label>
 
           <label>
-            Observações
+            Observações gerais
             <input type="text" id="observacoes" placeholder="Opcional">
           </label>
+        </div>
+
+        <div class="components-section">
+          <h3>Componentes para Lubrificação</h3>
+          <div id="componentsList">
+            <!-- Componentes serão inseridos aqui via JS -->
+          </div>
+          
+          <div class="add-component-form">
+            <select id="componentType">
+              <option value="">Selecione o tipo de componente</option>
+              <option value="mancal">Mancal</option>
+              <option value="guia">Guia Linear</option>
+              <option value="rolamento">Rolamento</option>
+              <option value="corrente">Corrente</option>
+              <option value="redutor">Redutor</option>
+              <option value="outro">Outro</option>
+            </select>
+            <input type="number" id="componentQty" placeholder="Quantidade" min="1">
+            <input type="text" id="componentLub" placeholder="Tipo de lubrificante">
+            <input type="text" id="componentDesc" placeholder="Descrição/Observações">
+            <button type="button" id="addComponentBtn" class="secondary">+ Adicionar Componente</button>
+          </div>
         </div>
 
         <div class="actions">
@@ -94,9 +112,8 @@
               <th>Equipamento</th>
               <th>Patrimônio</th>
               <th>Período</th>
-              <th>Óleo/Graxa</th>
               <th>Data realizada</th>
-              <th>Observações</th>
+              <th>Próxima Data</th>
               <th>Ações</th>
             </tr>
           </thead>
