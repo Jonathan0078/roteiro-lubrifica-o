@@ -16,6 +16,7 @@ const saveBtn = document.getElementById('saveBtn');
 const clearBtn = document.getElementById('clearBtn');
 const exportBtn = document.getElementById('exportBtn');
 const clearAllBtn = document.getElementById('clearAllBtn');
+const printBtn = document.getElementById('printBtn');
 const searchEl = document.getElementById('search');
 const filterPeriodoEl = document.getElementById('filterPeriodo');
 
@@ -97,13 +98,13 @@ function render() {
   for (const en of filtered) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${escape(en.equipamento)}</td>
-      <td>${escape(en.patrimonio)}</td>
-      <td>${escape(en.periodo)}</td>
-      <td>${escape(en.lubrificante)}</td>
-      <td>${formatDate(en.data_realizada)}</td>
-      <td>${escape(en.observacoes || '')}</td>
-      <td>
+      <td data-label="Equipamento">${escape(en.equipamento)}</td>
+      <td data-label="Patrimônio">${escape(en.patrimonio)}</td>
+      <td data-label="Período">${escape(en.periodo)}</td>
+      <td data-label="Óleo/Graxa">${escape(en.lubrificante)}</td>
+      <td data-label="Data realizada">${formatDate(en.data_realizada)}</td>
+      <td data-label="Observações">${escape(en.observacoes || '')}</td>
+      <td data-label="Ações">
         <button data-id="${en.id}" class="edit">Editar</button>
         <button data-id="${en.id}" class="delete">Excluir</button>
       </td>
@@ -186,6 +187,82 @@ lubForm.addEventListener('submit', addOrUpdateEntry);
 clearBtn.addEventListener('click', resetForm);
 exportBtn.addEventListener('click', exportCSV);
 clearAllBtn.addEventListener('click', clearAll);
+// Print only the filtered records in a new window (avoids printing the form/UI)
+function getFilteredEntries() {
+  const q = searchEl.value.trim().toLowerCase();
+  const periodoFilter = filterPeriodoEl.value;
+  return entries.filter(en => {
+    const matchQ = !q || en.equipamento.toLowerCase().includes(q) || en.patrimonio.toLowerCase().includes(q);
+    const matchPeriodo = !periodoFilter || en.periodo.toLowerCase().includes(periodoFilter);
+    return matchQ && matchPeriodo;
+  });
+}
+
+function printRecords() {
+  const filtered = getFilteredEntries();
+  const title = 'Roteiro de Lubrificação - Registros';
+  const now = new Date();
+  const dateStr = now.toLocaleString();
+
+  let rows = '';
+  for (const en of filtered) {
+    rows += `<tr>` +
+      `<td>${escape(en.equipamento)}</td>` +
+      `<td>${escape(en.patrimonio)}</td>` +
+      `<td>${escape(en.periodo)}</td>` +
+      `<td>${escape(en.lubrificante)}</td>` +
+      `<td>${formatDate(en.data_realizada)}</td>` +
+      `<td>${escape(en.observacoes || '')}</td>` +
+      `</tr>`;
+  }
+
+  const html = `<!doctype html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <title>${title}</title>
+      <style>
+        body{font-family: Arial, Helvetica, sans-serif;color:#000;margin:20px}
+        h1{font-size:18px;margin-bottom:6px}
+        .meta{font-size:12px;color:#444;margin-bottom:12px}
+        table{width:100%;border-collapse:collapse}
+        th,td{padding:8px;border:1px solid #ccc;text-align:left;font-size:12px}
+        thead th{background:#f2f4f7}
+        @media print{ th,td{font-size:11pt} }
+      </style>
+    </head>
+    <body>
+      <h1>${title}</h1>
+      <div class="meta">Gerado em: ${dateStr}</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Equipamento</th>
+            <th>Patrimônio</th>
+            <th>Período</th>
+            <th>Óleo/Graxa</th>
+            <th>Data realizada</th>
+            <th>Observações</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows || '<tr><td colspan="6">Nenhum registro</td></tr>'}
+        </tbody>
+      </table>
+    </body>
+  </html>`;
+
+  const win = window.open('', '_blank');
+  if (!win) { alert('Não foi possível abrir a janela de impressão (bloqueador de pop-ups?).'); return; }
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  // Small timeout to ensure render, then print and close
+  setTimeout(() => { win.print(); win.close(); }, 300);
+}
+
+if (printBtn) printBtn.addEventListener('click', printRecords);
 searchEl.addEventListener('input', () => render());
 filterPeriodoEl.addEventListener('change', () => render());
 
