@@ -17,6 +17,7 @@ const componentTypeEl = document.getElementById('componentType');
 const componentQtyEl = document.getElementById('componentQty');
 const componentLubEl = document.getElementById('componentLub');
 const componentDescEl = document.getElementById('componentDesc');
+const componentTypeOtherEl = document.getElementById('componentTypeOther'); // novo campo
 const addComponentBtn = document.getElementById('addComponentBtn');
 const componentsListEl = document.getElementById('componentsList');
 const entriesTableBody = document.querySelector('#entriesTable tbody');
@@ -62,12 +63,18 @@ function validateForm() {
 
 // Funções para gerenciar componentes
 function addComponent() {
-  const type = componentTypeEl.value;
+  let type = componentTypeEl.value;
   const qty = componentQtyEl.value;
   const lub = componentLubEl.value;
   const desc = componentDescEl.value;
 
-  if (!type) return alert('Selecione o tipo de componente.');
+  if (type === 'outro') {
+    type = componentTypeOtherEl.value.trim();
+    if (!type) return alert('Especifique o tipo de componente.');
+  } else {
+    if (!type) return alert('Selecione o tipo de componente.');
+  }
+
   if (!qty || qty < 1) return alert('Informe uma quantidade válida.');
   if (!lub) return alert('Informe o tipo de lubrificante.');
 
@@ -106,6 +113,8 @@ function clearComponentForm() {
   componentQtyEl.value = '';
   componentLubEl.value = '';
   componentDescEl.value = '';
+  componentTypeOtherEl.value = '';
+  componentTypeOtherEl.style.display = 'none';
 }
 
 function calculateProximaData(dataRealizada, periodo) {
@@ -438,6 +447,17 @@ function printRecords() {
 if (printBtn) printBtn.addEventListener('click', printRecords);
 searchEl.addEventListener('input', () => render());
 filterPeriodoEl.addEventListener('change', () => render());
+
+// Listener para mostrar/ocultar campo 'Outro'
+componentTypeEl.addEventListener('change', () => {
+  if (componentTypeEl.value === 'outro') {
+    componentTypeOtherEl.style.display = 'block';
+    componentTypeOtherEl.focus();
+  } else {
+    componentTypeOtherEl.style.display = 'none';
+  }
+});
+
 addComponentBtn.addEventListener('click', (e) => {
   e.preventDefault();
   addComponent();
