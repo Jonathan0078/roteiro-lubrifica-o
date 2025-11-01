@@ -28,25 +28,28 @@
 
   <main class="container">
 
+      <!-- Removido formulário duplicado para corrigir layout bugado -->
     <section class="card">
       <h2>Registrar lubrificação</h2>
+      <!-- Área para mensagens visuais -->
+      <div id="msgArea"></div>
       <form id="lubForm">
         <div class="grid">
           <label>
             Equipamento
             <input type="text" id="equipamento" required placeholder="Nome do equipamento">
           </label>
-
           <label>
             Patrimônio
             <input type="text" id="patrimonio" required placeholder="Número do patrimônio">
           </label>
-
           <label>
             Período/Intervalo
             <input type="text" id="periodo" required placeholder="Ex: semanal, mensal, 3 meses">
           </label>
-
+        </div>
+        <!-- ...campos do formulário... -->
+        <div class="grid">
           <label>
             Data realizada
             <input type="date" id="data_realizada" required>
@@ -83,10 +86,8 @@
         </div>
 
         <div class="actions">
-          <button type="submit" id="saveBtn">Adicionar</button>
-          <button type="button" id="clearBtn">Limpar formulário</button>
-          <button type="button" id="exportBtn">Exportar CSV</button>
-          <button type="button" id="printBtn" class="secondary">Imprimir</button>
+          <button type="submit" id="saveBtn" class="btn-primary">Adicionar</button>
+          <button type="button" id="clearBtn" class="btn-primary">Limpar formulário</button>
           <button type="button" id="clearAllBtn" class="danger">Apagar tudo</button>
         </div>
       </form>
@@ -120,6 +121,10 @@
           </thead>
           <tbody></tbody>
         </table>
+      </div>
+      <div style="margin-top:18px; display:flex; gap:12px; justify-content:flex-end;">
+        <button type="button" id="exportBtn" class="btn-primary">Exportar CSV</button>
+        <button type="button" id="printBtn" class="btn-primary">Imprimir</button>
       </div>
     </section>
 

@@ -21,7 +21,7 @@ const componentTypeOtherEl = document.getElementById('componentTypeOther'); // n
 const addComponentBtn = document.getElementById('addComponentBtn');
 const componentsListEl = document.getElementById('componentsList');
 const entriesTableBody = document.querySelector('#entriesTable tbody');
-const saveBtn = document.getElementById('saveBtn');
+const addBtn = document.getElementById('saveBtn');
 const clearBtn = document.getElementById('clearBtn');
 const exportBtn = document.getElementById('exportBtn');
 const clearAllBtn = document.getElementById('clearAllBtn');
@@ -151,7 +151,7 @@ function calculateProximaData(dataRealizada, periodo) {
   return date.toISOString().split('T')[0];
 }
 
-function addOrUpdateEntry(e) {
+function addEntry(e) {
   e.preventDefault();
   const err = validateForm();
   if (err) { alert(err); return; }
@@ -359,7 +359,7 @@ function formatComponentsCSV(components) {
 }
 
 // listeners
-lubForm.addEventListener('submit', addOrUpdateEntry);
+lubForm.addEventListener('submit', addEntry);
 clearBtn.addEventListener('click', resetForm);
 exportBtn.addEventListener('click', exportCSV);
 clearAllBtn.addEventListener('click', clearAll);
